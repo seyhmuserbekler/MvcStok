@@ -1,0 +1,53 @@
+﻿@using MvcStok.Models.Entity
+@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<TblUrunler>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Urunler Sayfası</h2>
+
+@using (Html.BeginForm("Index", "Urun", FormMethod.Get))
+{
+    <p>
+        Ürün Adı:@Html.TextBox("p")
+        <input type="submit" value="Ara" />
+    </p>
+
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>Urun Adı</th>
+        <th>Marka </th>
+        <th>Stok </th>
+        <th>Alış Fiyatı </th>
+        <th>Satış Fiyatı </th>
+        <th>Kategori  </th>
+        <th>Sil</th>
+        <th>Güncelle</th>
+    </tr>
+    @foreach (var urn in Model)
+    {
+        <tr>
+            <td>@urn.id</td>
+            <td>@urn.ad</td>
+            <td>@urn.marka</td>
+            <td>@urn.stok</td>
+            <td>@urn.alisfiyat</td>
+            <td>@urn.satisfiyat</td>
+            <td>@urn.TblKategori.ad</td>
+
+
+            <td><a href="/Urun/UrunSil/@urn.id" class="btn btn-danger">Sil</a></td>
+            <td><a href="/Urun/UrunGetir/@urn.id" class="btn btn-success">Güncelle</a></td>
+        </tr>
+    }
+</table>
+@Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("Index", new { sayfa }))
+<td><a href="/Urun/YeniUrun/" class="btn btn-primary">Yeni Ürün Ekle</a></td>
+
+
